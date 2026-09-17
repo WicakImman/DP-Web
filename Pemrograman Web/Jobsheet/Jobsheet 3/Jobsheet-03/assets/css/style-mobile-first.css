@@ -1,0 +1,250 @@
+/* =========================================================
+   SIMPUS-Mini - style-mobile-first.css
+   Pendekatan Mobile-First (Latihan Tambahan 5)
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* ===== Header & Navbar — gaya dasar (Mobile) ===== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1d5b8a;
+  color: #fff;
+  padding: 1rem 1.25rem;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: block;
+  font-size: 1.6rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+header nav {
+  display: none;
+  width: 100%;
+  order: 3;
+  margin-top: 1rem;
+}
+
+.nav-toggle:checked ~ nav {
+  display: block;
+}
+
+header nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header nav a:hover,
+header nav a.active {
+  text-decoration: underline;
+}
+
+/* ===== Layout Utama — gaya dasar (Mobile) ===== */
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+main section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+main section h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1d5b8a;
+}
+
+/* Kartu Ringkasan — 1 kolom dulu (mobile) */
+main section:nth-of-type(2) {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  text-align: center;
+}
+
+main section:nth-of-type(2) article {
+  background-color: #eef4fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+main section:nth-of-type(2) h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #55677a;
+}
+
+main section:nth-of-type(2) p {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1d5b8a;
+}
+
+/* ===== Tabel ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+thead {
+  background-color: #1d5b8a;
+  color: #fff;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f7f9fb;
+}
+
+tbody tr:hover {
+  background-color: #eef4fa;
+}
+
+td button {
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.3rem;
+  color: #fff;
+}
+
+td button:first-of-type {
+  background-color: #f0ad4e;
+}
+
+td button:last-of-type {
+  background-color: #d9534f;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* ===== Form — gaya dasar (Mobile, input full-width) ===== */
+form label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: #444;
+}
+
+form input,
+form select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #cdd4da;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+form button[type="submit"] {
+  background-color: #1d5b8a;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+  background-color: #164869;
+}
+
+/* =========================================================
+   MOBILE-FIRST BREAKPOINTS
+   Mulai dari sini, gaya di atas ditimpa buat layar lebih lebar
+   ========================================================= */
+
+/* ===== Tablet ke atas (min-width: 481px) ===== */
+@media (min-width: 481px) {
+  header {
+    flex-wrap: nowrap;
+  }
+
+  .nav-toggle-label {
+    display: none;
+  }
+
+  header nav {
+    display: block;
+    width: auto;
+    order: 0;
+    margin-top: 0;
+  }
+
+  header nav ul {
+    flex-direction: row;
+    gap: 1.25rem;
+  }
+
+  main section:nth-of-type(2) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  form input,
+  form select {
+    max-width: 400px;
+  }
+}
+
+/* ===== Desktop ke atas (min-width: 769px) ===== */
+@media (min-width: 769px) {
+  main section:nth-of-type(2) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Monitor sangat lebar (min-width: 1400px) ===== */
+@media (min-width: 1400px) {
+  main {
+    max-width: 1300px;
+  }
+}
