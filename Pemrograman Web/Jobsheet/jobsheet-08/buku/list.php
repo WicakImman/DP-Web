@@ -1,0 +1,80 @@
+<?php
+$page_title = "Daftar Buku";
+include __DIR__ . '/../includes/header.php';
+require __DIR__ . '/../includes/koneksi.php';
+
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
+
+$q = trim($_GET['q'] ?? '');
+
+if ($q !== '') {
+    $stmt = $pdo->prepare("SELECT * FROM buku WHERE judul ILIKE :keyword ORDER BY id DESC");
+    $stmt->execute(['keyword' => '%' . $q . '%']);
+    $daftarBuku = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
+
+    <section>
+      <h2>Daftar Buku</h2>
+
+      <?php if ($flash): ?>
+        <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo htmlspecialchars($flash['pesan']); ?></p>
+      <?php endif; ?>
+
+      <form class="search-box" method="get" action="list.php">
+        <label for="search-input">Cari Judul Buku</label>
+        <input type="text" id="search-input" name="q" data-kolom="0"
+               value="<?php echo htmlspecialchars($q); ?>" placeholder="Ketik judul buku...">
+        <button type="submit">Cari</button>
+        <?php if ($q !== ''): ?>
+          <a href="list.php">Tampilkan semua</a>
+        <?php endif; ?>
+      </form>
+      <p id="info-jumlah" data-satuan="buku"></p>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Judul</th>
+              <th>Pengarang</th>
+              <th>Tahun</th>
+              <th>Stok</th>
+              <th>Ditambahkan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (empty($daftarBuku)): ?>
+              <tr>
+                <?php if ($q !== ''): ?>
+                  <td colspan="6">Tidak ada buku dengan judul "<?php echo htmlspecialchars($q); ?>".</td>
+                <?php else: ?>
+                  <td colspan="6">Belum ada data buku. Silakan tambah lewat menu "Tambah Buku".</td>
+                <?php endif; ?>
+              </tr>
+            <?php else: ?>
+              <?php foreach ($daftarBuku as $buku): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($buku['judul']); ?></td>
+                  <td><?php echo htmlspecialchars($buku['pengarang']); ?></td>
+                  <td><?php echo $buku['tahun']; ?></td>
+                  <td><?php echo $buku['stok']; ?></td>
+                  <td><?php echo $buku['tanggal_ditambahkan'] ? date('d/m/Y H:i', strtotime($buku['tanggal_ditambahkan'])) : '-'; ?></td>
+                  <td>
+                    <button type="button">Edit</button>
+                    <button type="button" class="btn-hapus">Hapus</button>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>
